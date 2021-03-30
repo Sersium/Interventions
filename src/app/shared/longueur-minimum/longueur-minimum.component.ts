@@ -6,7 +6,7 @@ export class ZonesValidator {
             if (valeurControle.value == null) {
                 return { 'nbreCaracteresInsuffisants': true };
             }
-            if (valeurControle.value.trim().length >= valeurMinimum) {
+            if ((valeurControle.value.trim().length >= valeurMinimum) ||  (valeurControle.value.trim().length ==0))  {
                 return null;
             }
             return { 'nbreCaracteresInsuffisants': true };
