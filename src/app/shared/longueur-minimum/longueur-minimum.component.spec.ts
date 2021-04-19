@@ -3,12 +3,6 @@ import { ZonesValidator } from "./longueur-minimum.component";
 
 describe('longueur zone Validator', () => {
 
-    it('une chaîne avec 10 espaces est invalide', () => {
-        let validator = ZonesValidator.longueurMinimum(3);
-        let valeurControle = { value: '          ' };
-        let result = validator(valeurControle as AbstractControl);
-        expect(result['nbreCaracteresInsuffisants']).toBe(true);
-    })
     it('Une phrase avec des mots est valide', () => {
         let validator = ZonesValidator.longueurMinimum(3);
         let valeurControle = { value: 'Vive angular' };
