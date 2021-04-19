@@ -1,5 +1,5 @@
 import { InMemoryBackendConfig, InMemoryDbService } from "angular-in-memory-web-api";
-import { IProbleme } from "./probleme";
+import { IProbleme } from "./typeprobleme";
 
 export class ProblemeData implements InMemoryDbService, InMemoryBackendConfig {
     createDb() {

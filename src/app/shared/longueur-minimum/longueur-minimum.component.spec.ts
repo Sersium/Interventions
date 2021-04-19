@@ -2,6 +2,7 @@ import { AbstractControl } from "@angular/forms";
 import { ZonesValidator } from "./longueur-minimum.component";
 
 describe('longueur zone Validator', () => {
+    
 
     it('Une phrase avec des mots est valide', () => {
         let validator = ZonesValidator.longueurMinimum(3);

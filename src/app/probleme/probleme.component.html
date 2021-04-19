@@ -13,7 +13,7 @@
 
             <div class="card-text">
 
-                <form class="form-horizontal" novalidate (ngSubmit)="appliquerNotifications()" [formGroup]="problemeForm">
+                <form class="form-horizontal" novalidate (ngSubmit)="save()" [formGroup]="problemeForm">
 
                     <div class="form-group row">
 
@@ -94,27 +94,27 @@
                     <div class="form-group row">
                         <label for="ProblemeId" class="col-md-2 col-form-label text-right">Probleme :</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="ProblemeId" formControlName="Problemes" [ngClass]="{
+                            <select class="form-control" id="ProblemeId" formControlName="Typeprobleme" [ngClass]="{
     
-                                'is-valid': (problemeForm.get('Problemes').touched ||  
-                                problemeForm.get('Problemes').dirty) && 
-                                (problemeForm.get('Problemes').valid), 
+                                'is-valid': (problemeForm.get('Typeprobleme').touched ||  
+                                problemeForm.get('Typeprobleme').dirty) && 
+                                (problemeForm.get('Typeprobleme').valid), 
     
-                                'is-invalid': (problemeForm.get('Problemes').touched ||  
-                                problemeForm.get('Problemes').dirty) && 
-                                (!problemeForm.get('Problemes').valid )}">
+                                'is-invalid': (problemeForm.get('Typeprobleme').touched ||  
+                                problemeForm.get('Typeprobleme').dirty) && 
+                                (!problemeForm.get('Typeprobleme').valid )}">
     
                                 <option value="">Merci de Selectionner un type de probleme</option>
-                                <option *ngFor="let cat of typesProblemes" [value]="cat.id">{{cat.descriptionTypeProbleme}}
+                                <option *ngFor="let cat of typesTypeprobleme" [value]="cat.id">{{cat.descriptionTypeProbleme}}
                                 </option>
                             </select>
                             <span class="form-text" *ngIf="
     
-                                (problemeForm.get('Problemes').touched ||
-                                problemeForm.get('Problemes').dirty) &&
-                                problemeForm.get('Problemes').errors ">
+                                (problemeForm.get('Typeprobleme').touched ||
+                                problemeForm.get('Typeprobleme').dirty) &&
+                                problemeForm.get('Typeprobleme').errors ">
     
-                                <span *ngIf='problemeForm.get("Problemes").errors.required'>
+                                <span *ngIf='problemeForm.get("Typeprobleme").errors.required'>
                                     <small class="text-muted">
                                         Merci de selectionner un type de probleme.
                                     </small>
