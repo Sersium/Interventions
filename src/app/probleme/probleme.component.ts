@@ -14,6 +14,7 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   typesProblemes: IProbleme[];
   errorMessage: string;
+  save(): void{};
   
 
   constructor(private fb: FormBuilder, private probleme: TypeproblemeService) { }
@@ -24,8 +25,7 @@ export class ProblemeComponent implements OnInit {
       prenom: ['', [ZonesValidator.longueurMinimum(3), Validators.required]],
       nom: ['', [Validators.maxLength(50), Validators.required]],
       Typeprobleme: ['',[Validators.required]],
-      noTypenoProbleme: ['', Validators.required],
-      typeNotification: ['NePasNotifier'],
+      typeNotification: [ {value: 'NePasNotifier', disabled: false}],
       telephone: [{ value: '', disabled: true }],
       courrielGroup: this.fb.group({
         courriel: [{ value: '', disabled: true }],
@@ -36,9 +36,13 @@ export class ProblemeComponent implements OnInit {
     this.probleme.obtenirProblemes()
       .subscribe(cat => this.typesProblemes = cat,
         error => this.errorMessage = <any>error);
+
+
+    this.problemeForm.get('typeNotification').valueChanges
+      .subscribe(value => this.appliquerNotifications(value));
   };
   
-  save(): void{};
+ 
 
  appliquerNotifications(typeNotification: string): void {
     const pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+";
@@ -84,7 +88,6 @@ export class ProblemeComponent implements OnInit {
       telephoneControl.enable();
       telephoneControl.setValidators([Validators.minLength(10), Validators.maxLength(10), Validators.pattern(pattern2), Validators.required]);
     }
-
 
     courrielControl.updateValueAndValidity();
     confirmerCourrielControl.updateValueAndValidity();
