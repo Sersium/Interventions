@@ -30,7 +30,10 @@ export class ProblemeComponent implements OnInit {
       courrielGroup: this.fb.group({
         courriel: [{ value: '', disabled: true }],
         courrielConfirmation: [{ value: '', disabled: true }]
-      })
+      }),
+      descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],         
+      noUnite: '',
+      dateProbleme: {value: Date(), disabled: true}
     });
 
     this.probleme.obtenirProblemes()
@@ -40,6 +43,7 @@ export class ProblemeComponent implements OnInit {
 
     this.problemeForm.get('typeNotification').valueChanges
       .subscribe(value => this.appliquerNotifications(value));
+
   };
   
  
