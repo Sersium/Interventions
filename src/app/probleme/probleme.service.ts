@@ -9,7 +9,8 @@ import { IProbleme } from './probleme';
 })
 export class ProblemeService {
 
-    private baseUrl = 'https://localhost:5001/Intervention';
+    //private baseUrl = 'https://localhost:5001/Intervention';
+    private baseUrl = 'https://interventionsmd2021.azurewebsites.net/Intervention';
 
     constructor(private _http: HttpClient) { }
 
