@@ -94,7 +94,7 @@
                     <div class="form-group row">
                         <label for="ProblemeId" class="col-md-2 col-form-label text-right">Probleme :</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="ProblemeId" formControlName="Typeprobleme" [ngClass]="{
+                            <select class="form-control" id="noTypeProblemeId" formControlName="Typeprobleme" [ngClass]="{
     
                                 'is-valid': (problemeForm.get('Typeprobleme').touched ||  
                                 problemeForm.get('Typeprobleme').dirty) && 
@@ -131,15 +131,15 @@
                         <div class="col-md-2"></div>
                         <div class="col-md-10">
                             <label class="radio-inline">
-                                <input type="radio" value="nePasNotifier" id="NotificationId"
+                                <input type="radio" value="nePasNotifier" id="NotifiezMoiId"
                                     formControlName="typeNotification"> &nbsp; Ne pas me notifier </label>
 
                             &nbsp;&nbsp;&nbsp; <label class="radio-inline">
-                                <input type="radio" value="courriel" id="NotificationId"
+                                <input type="radio" value="courriel" id="NotifiezMoiId"
                                     formControlName="typeNotification">
                                 &nbsp; Par courriel
                             </label> &nbsp;&nbsp;&nbsp; <label class="radio-inline">
-                                <input type="radio" value="telephone" id="NotificationId"
+                                <input type="radio" value="telephone" id="NotifiezMoiId"
                                     formControlName="typeNotification">
                                 &nbsp; Par messagerie texte
                             </label>
@@ -257,7 +257,7 @@
                     <div class="form-group row">
                         <label for="noUniteId" class="col-md-2 col-form-label text-right"># Unité :</label>
                         <div class="col-md-10">
-                            <input class="form-control" id="noUniteId" type="text"
+                            <input class="form-control" id="noUnite" type="text"
                                 placeholder="Numéro de l'unité si connu" formControlName="noUnite" />
                         </div>
                     </div>
@@ -312,9 +312,8 @@
                         <div class="col-md-10">
                             <span>
                                 <button class="btn btn-primary" type="submit" [disabled]="!problemeForm.valid">
-                                    <i class="fa fa-save"></i>
-                                    &nbsp;&nbsp;Sauvegarder
-                                </button>
+                                    <i class="fa fa-save"></i>Sauvegarder</button>
+                                
                             </span>
                         </div>
                     </div>

@@ -10,8 +10,23 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', async () => {
     await page.navigateTo();
-    expect(await page.getTitleText()).toEqual('Interventions app is running!');
+    expect(await page.getTitleText()).toEqual('Veuillez renseigner les zones suivante et soumettre votre demande');
   });
+
+  it('doit activer le bouton Sauvegarder avec champs valides scénario nominal', async () => {
+
+    await page.viderToutesLesZones();
+  
+    await page.setChampsValidesScenarioNominal();                              
+    expect(await page.boutonSubmit().isEnabled()).toBeTruthy();
+  });
+
+  it('zone DESCRIPTION DU PROBLEME a une bordure ROUGE si nombre de caractères insuffisant', async () => {
+
+    await page.setZoneDescriptionProblemeCaracteresInsuffisant();  
+    expect(await page.obtenirClasseZoneDescriptionProbleme()).toContain('is-invalid');
+  });  
+
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

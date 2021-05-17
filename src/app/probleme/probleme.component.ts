@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailMatcherValidator } from '../shared/email-matcher/email-matcher.component';
 import { ZonesValidator } from '../shared/longueur-minimum/longueur-minimum.component';
-import { IProbleme } from './typeprobleme';
-import { TypeproblemeService } from './typeprobleme.service';
+import { IProbleme } from './probleme';
+import { ITypeProbleme } from './typeprobleme';
+import { TypeProblemeService } from './typeprobleme.service';
+import { Router } from '@angular/router';
+import { ProblemeService } from './probleme.service';
 
 @Component({
   selector: 'stk-probleme',
@@ -12,31 +15,54 @@ import { TypeproblemeService } from './typeprobleme.service';
 })
 export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
-  typesProblemes: IProbleme[];
+  typesProblemes: ITypeProbleme[];
   errorMessage: string;
-  save(): void{};
-  
 
-  constructor(private fb: FormBuilder, private probleme: TypeproblemeService) { }
+  probleme: IProbleme;
+
+  save(): void {
+    if (this.problemeForm.dirty && this.problemeForm.valid) {
+      // Copy the form values over the problem object values
+      this.probleme = this.problemeForm.value;
+      this.probleme.id = 0;
+      this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
+      //this.probleme.dateProbleme = new Date();
+      this.problemeService.saveProbleme(this.probleme)
+        .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
+          () => this.onSaveComplete(),  // Fonction callback
+          (error: any) => this.errorMessage = <any>error
+        );
+    } else if (!this.problemeForm.dirty) {
+      this.onSaveComplete();
+    }
+  }
+
+  onSaveComplete(): void {
+    // Reset the form to clear the flags
+    this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+    this.route.navigate(['/accueil']);
+  }
+
+  constructor(private fb: FormBuilder, private typeproblemeService: TypeProblemeService, private problemeService: ProblemeService, private route : Router) { }
 
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
 
       prenom: ['', [ZonesValidator.longueurMinimum(3), Validators.required]],
       nom: ['', [Validators.maxLength(50), Validators.required]],
-      Typeprobleme: ['',[Validators.required]],
-      typeNotification: [ {value: 'NePasNotifier', disabled: false}],
+      Typeprobleme: ['', [Validators.required]],
+      typeNotification: [{ value: 'NePasNotifier', disabled: false }],
       telephone: [{ value: '', disabled: true }],
       courrielGroup: this.fb.group({
         courriel: [{ value: '', disabled: true }],
         courrielConfirmation: [{ value: '', disabled: true }]
       }),
-      descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],         
+      descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],
       noUnite: '',
-      dateProbleme: {value: Date(), disabled: true}
+      dateProbleme: { value: Date(), disabled: true }
     });
 
-    this.probleme.obtenirProblemes()
+    this.typeproblemeService.obtenirProblemes()
       .subscribe(cat => this.typesProblemes = cat,
         error => this.errorMessage = <any>error);
 
@@ -45,10 +71,10 @@ export class ProblemeComponent implements OnInit {
       .subscribe(value => this.appliquerNotifications(value));
 
   };
-  
- 
 
- appliquerNotifications(typeNotification: string): void {
+
+
+  appliquerNotifications(typeNotification: string): void {
     const pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+";
     const pattern2 = "[0-9]+";
     const courrielGroupControl = this.problemeForm.get('courrielGroup');
@@ -76,17 +102,17 @@ export class ProblemeComponent implements OnInit {
 
       courrielControl.enable();
       courrielControl.setValidators([Validators.pattern(pattern), Validators.required]);
-   
+
       confirmerCourrielControl.enable();
       confirmerCourrielControl.setValidators([Validators.required]);
-  
+
       courrielGroupControl.setValidators([Validators.compose([emailMatcherValidator.courrielDifferents()])]);
 
-    } else if (typeNotification === 'NePasNotifier'){
+    } else if (typeNotification === 'NePasNotifier') {
 
       courrielControl.disable();
       confirmerCourrielControl.disable();
-      telephoneControl.disable(); 
+      telephoneControl.disable();
 
     } else if (typeNotification === 'telephone') {
       telephoneControl.enable();
